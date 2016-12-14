@@ -1,5 +1,7 @@
 Sometimes we need to update to newly released genome assemblies in GeneNetwork. This file details the process used to update the database accordingly.
 
+---
+
 ## How to update assemblies in GeneNetwork
 
 
@@ -12,9 +14,17 @@ Sometimes we need to update to newly released genome assemblies in GeneNetwork. 
    * Source code sync script - [GitHub](https://github.com/genenetwork/sysmaintenance/blob/master/gn_update_src/gnupdatesrc_from_lily.sh)
    * Database sync script - [GitHub](https://github.com/genenetwork/sysmaintenance/blob/master/gn_update_db/gnupdatedb_from_lily.sh)
 
-3. Add new columns in the database for the previous assembly versions in the ProbeSet table on the server Rabbit. These new columns should correspond with the following existing columns: **Chr, Mb, Probe_set_Blat_Mb_start, Probe_set_Blat_Mb_end**
+3. Add new columns in the database for the previous assembly versions in the ProbeSet table on the server Rabbit. These new columns should correspond with the following existing columns: 
+   - **Chr**
+   - **Mb** 
+   - **Probe_set_Blat_Mb_start**
+   - **Probe_set_Blat_Mb_end**
 
-   The names for the new columns should include the current year. For example: **Chr_2016, Mb_2016, Probe_set_Blat_Mb_start_2016, Probe_set_Blat_Mb_end_2016**
+   The names for the new columns should include the current year. For example: 
+   - **Chr_2016**
+   - **Mb_2016** 
+   - **Probe_set_Blat_Mb_start_2016**
+   - **Probe_set_Blat_Mb_end_2016**
 
    The SQL to do this is the following (though database editing software can be used instead):
    ```
