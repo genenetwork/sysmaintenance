@@ -1,0 +1,16 @@
+[process]
+A new GN1 archive (2016-12-12) was created
+	http://artemis.uthsc.edu/
+	http://artemis-20161212.genenetwork.org/
+On Server Rabbit, update GN database and codes
+On Server Rabbit, db table ProbeSet
+	add new columns: Chr_2016, Mb_2016, Probe_set_Blat_Mb_start_2016, Probe_set_Blat_Mb_end_2016	# about 10 minutes
+	duplicate the data of these columns: Chr_2016, Mb_2016, Probe_set_Blat_Mb_start_2016, Probe_set_Blat_Mb_end_2016
+	"""
+	UPDATE ProbeSet
+	SET
+	ProbeSet.`Chr_2016`			= ProbeSet.`Chr`,
+	ProbeSet.`Mb_2016`			= ProbeSet.`Mb`,
+	ProbeSet.`Probe_set_Blat_Mb_start_2016`	= ProbeSet.`Probe_set_Blat_Mb_start`,
+	ProbeSet.`Probe_set_Blat_Mb_end_2016`	= ProbeSet.`Probe_set_Blat_Mb_end`;
+	"""	# about 3 minutes
