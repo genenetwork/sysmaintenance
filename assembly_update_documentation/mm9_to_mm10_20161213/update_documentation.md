@@ -83,7 +83,7 @@ Sometimes we need to update to newly released genome assemblies in GeneNetwork. 
    
    Note that mm9 positions without corresponding mm10 positions will be excluded from the resulting file. We include the Id in the input file in order to identify which traits were excluded.
 
-8. Load the data in the output file from the previous step into the dummy table Vloopup in the database. The SQL to do so is the following (substituting "ucsc_liftover_results.bed" with the file you received from the previous step):
+8. Load the data in the output file from the previous step into the dummy table Vlookup in the database. The SQL to do so is the following (substituting "ucsc_liftover_results.bed" with the file you received from the previous step):
    ```
    LOAD DATA
    INFILE '/home/acenteno/liftover_mm9-mm10/ucsc_liftover_results.bed'
@@ -92,7 +92,7 @@ Sometimes we need to update to newly released genome assemblies in GeneNetwork. 
    
    This query should take about 18 seconds.
 
-9. Update the data in the ProbeSet table from the Vloopup table using the following SQL:
+9. Update the data in the ProbeSet table from the Vlookup table using the following SQL:
    ```
    UPDATE ProbeSet p1, Vlookup p2
    SET p1.Mb = p2.Mb
