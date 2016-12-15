@@ -85,7 +85,9 @@ Sometimes we need to update to newly released genome assemblies in GeneNetwork. 
 
 8. Load the data in the output file from the previous step into the dummy table Vloopup in the database. The SQL to do so is the following (substituting "ucsc_liftover_results.bed" with the file you received from the previous step):
    ```
-   LOAD DATA INFILE '/home/acenteno/liftover_mm9-mm10/ucsc_liftover_results.bed' INTO TABLE Vlookup (Chr, Mb, Probe_set_Blat_Mb_end, Id);
+   LOAD DATA
+   INFILE '/home/acenteno/liftover_mm9-mm10/ucsc_liftover_results.bed'
+   INTO TABLE Vlookup (Chr, Mb, Probe_set_Blat_Mb_end, Id);
    ```
    
    This query should take about 18 seconds.
