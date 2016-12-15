@@ -20,83 +20,89 @@ Sometimes we need to update to newly released genome assemblies in GeneNetwork. 
    - **Probe_set_Blat_Mb_start**
    - **Probe_set_Blat_Mb_end**
 
-   The names for the new columns should include the current year. For example: 
-   - **Chr_2016**
-   - **Mb_2016** 
-   - **Probe_set_Blat_Mb_start_2016**
-   - **Probe_set_Blat_Mb_end_2016**
+  The names for the new columns should include the current year. For example: 
+  - **Chr_2016**
+  - **Mb_2016** 
+  - **Probe_set_Blat_Mb_start_2016**
+  - **Probe_set_Blat_Mb_end_2016**
 
-   The SQL to do this is the following (though database editing software can be used instead):
-   ```
-       ALTER TABLE ProbeSet 
-       ADD COLUMN Chr_2016 CHAR(3) AFTER Mb
+  The SQL to do this is the following (though database editing software can be used instead):
+  ```
+  ALTER TABLE ProbeSet 
+  ADD COLUMN Chr_2016 CHAR(3) AFTER Mb
        
-       ALTER TABLE ProbeSet
-       ADD COLUMN Mb_2016 double AFTER Chr_2016
+  ALTER TABLE ProbeSet
+  ADD COLUMN Mb_2016 double AFTER Chr_2016
        
-       ALTER TABLE ProbeSet
-       ADD COLUMN Probe_set_Blat_Mb_start_2016 double AFTER Mb_2016
+  ALTER TABLE ProbeSet
+  ADD COLUMN Probe_set_Blat_Mb_start_2016 double AFTER Mb_2016
        
-       ALTER TABLE ProbeSet
-       ADD COLUMN Probe_set_Blat_Mb_end_2016 double AFTER Probe_set_Blat_Mb_start_2016
-   ```
-    
-   These queries should last about 10 minutes.
+  ALTER TABLE ProbeSet
+  ADD COLUMN Probe_set_Blat_Mb_end_2016 double AFTER Probe_set_Blat_Mb_start_2016
+  ```
+   
+  These queries should last about 10 minutes.
 
 4. The data in Chr, Mb, Probe_set_Blat_Mb_start, and Probe_set_Blat_Mb_end should be duplicated in these new colums. The SQL for this is the following:
    ```
-    UPDATE ProbeSet
-    SET ProbeSet.`Chr_2016`                     = ProbeSet.`Chr`,
-        ProbeSet.`Mb_2016`                      = ProbeSet.`Mb`,
-        ProbeSet.`Probe_set_Blat_Mb_start_2016` = ProbeSet.`Probe_set_Blat_Mb_start`,
-        ProbeSet.`Probe_set_Blat_Mb_end_2016`	= ProbeSet.`Probe_set_Blat_Mb_end`;
+   UPDATE ProbeSet
+   SET ProbeSet.`Chr_2016`                     = ProbeSet.`Chr`,
+       ProbeSet.`Mb_2016`                      = ProbeSet.`Mb`,
+       ProbeSet.`Probe_set_Blat_Mb_start_2016` = ProbeSet.`Probe_set_Blat_Mb_start`,
+       ProbeSet.`Probe_set_Blat_Mb_end_2016`	= ProbeSet.`Probe_set_Blat_Mb_end`;
    ```
 
    This query should last about 3 minutes.
 
-5. Select only the microarray platforms for Species = 1 (Mouse), export Id, Chr, Probe_set_Blat_Mb_start, Probe_set_Blat_Mb_end values from ProbeSet table with Species =1 (Mouse) to a text file.
-```
-SELECT ProbeSet.`Id`,ProbeSet.`Chr`,ProbeSet.`Probe_set_Blat_Mb_start`,ProbeSet.`Probe_set_Blat_Mb_end`
-FROM ProbeSet,GeneChip
-WHERE ProbeSet.`ChipId`=GeneChip.`Id`
-AND GeneChip.`SpeciesId`=1
-ORDER BY ProbeSet.`Id`
-INTO OUTFILE '/tmp/ProbeSet_mm9v5.txt'
-FIELDS TERMINATED BY '\t'
-LINES TERMINATED BY '\n';
-```
-Execution Time : 1 min
+5. Selecting only the microarray platforms for Mouse (SpeciesId = 1), export the Ids and current location data (Chr, Mb, Probe_set_Blat_Mb_start, Probe_set_Blat_Mb_end) to a .bed file. The SQL for this is the following:
+   ```
+   SELECT ProbeSet.`Chr`, ProbeSet.`Probe_set_Blat_Mb_start`, ProbeSet.`Probe_set_Blat_Mb_end`, ProbeSet.`Id`
+   FROM ProbeSet,GeneChip
+   WHERE ProbeSet.`ChipId`=GeneChip.`Id`
+   AND GeneChip.`SpeciesId`=1
+   ORDER BY ProbeSet.`Id`
+   INTO OUTFILE '/tmp/ProbeSet_mm9v5_Mb.bed'
+   FIELDS TERMINATED BY '\t'
+   LINES TERMINATED BY '\n';
+   ```
+   
+   This query should last about 1 minute.
 
-6. Convert the Mb (megabases) positions to Bp (basepair)
-awk '{ OFS = "\t" ; print $1, $2*1000000, $3*1000000, $4}' liftover_mm9_genome_Group1g.bed > liftover_mm9_genome_Group1g_Mb.bed
+6. Convert the data in the previously exported file (ProbeSet_mm9v5_Mb.bed) from megabases to base pairs using the following line:
+   ```
+   awk '{ OFS = "\t" ; print $1, $2*1000000, $3*1000000, $4}' ProbeSet_mm9v5_Mb.bed > ProbeSet_mm9v5_bp.bed
+   ```
 
-7. Prepare a .bed file with chrxx start end Id and perform the liftover at http://genome.ucsc.edu/cgi-bin/hgLiftOver
+7. Use the web tool at http://genome.ucsc.edu/cgi-bin/hgLiftOver to convert the .bed file from the previous step (the one in base pairs) to mm10. The first drop-downs should be set to the following:
+   - Original Genome: Mouse
+   - Original Assembly: July 2007 (NCBI38/mm9)
+   - New Genome: Mouse
+   - New Assembly: Dec. 2011 (GRCm38/mm10)
+   
+   Leave the other options as is and upload your .bed file with the "Choose File" button at the bottom of the page. Then click "Submit File". The tool will then give you a .bed file with a randomized filename. 
+   
+   Note that mm9 positions without corresponding mm10 positions will be excluded from the resulting file. We include the Id in the input file in order to identify which traits were excluded.
 
-8. LOAD DATA INFILE
-```
-LOAD DATA INFILE '/home/acenteno/liftover_mm9-mm10/chr-start-end-id_master_liftover_mm10.txt' INTO TABLE Vlookup (Chr, Mb, Probe_set_Blat_Mb_end, Id);
-```
-17.92 sec
+8. Load the data in the output file from the previous step into the dummy table Vloopup in the database. The SQL to do so is the following (substituting "ucsc_liftover_results.bed" with the file you received from the previous step):
+   ```
+   LOAD DATA INFILE '/home/acenteno/liftover_mm9-mm10/ucsc_liftover_results.bed' INTO TABLE Vlookup (Chr, Mb, Probe_set_Blat_Mb_end, Id);
+   ```
+   
+   This query should take about 18 seconds.
 
-9. Vlookup the data from the dummy table Vlookup to table ProbeSet.
+9. Update the data in the ProbeSet table from the Vloopup table using the following SQL:
+   ```
+   UPDATE ProbeSet p1, Vlookup p2
+   SET p1.Mb = p2.Mb
+   WHERE p1.Id = p2.Id;
 
-```
-UPDATE ProbeSet p1, Vlookup p2
-SET p1.Mb = p2.Mb
-WHERE p1.Id = p2.Id;
-```
-Query OK, 2595514 rows affected (2 min 9.89 sec)
+   UPDATE ProbeSet p1, Vlookup p2
+   SET p1.Probe_set_Blat_Mb_start = p2.Mb
+   WHERE p1.Id = p2.Id;
 
-```
-UPDATE ProbeSet p1, Vlookup p2
-SET p1.Probe_set_Blat_Mb_start = p2.Mb
-WHERE p1.Id = p2.Id;
-```
-Query OK, 2595514 rows affected (2 min 10.67 sec)
+   UPDATE ProbeSet p1, Vlookup p2
+   SET p1.Probe_set_Blat_Mb_end = p2.Probe_set_Blat_Mb_end
+   WHERE p1.Id = p2.Id;
+   ```
 
-```
-UPDATE ProbeSet p1, Vlookup p2
-SET p1.Probe_set_Blat_Mb_end = p2.Probe_set_Blat_Mb_end
-WHERE p1.Id = p2.Id;
-```
-Query OK, 2595473 rows affected (2 min 11.36 sec)
+   These queries should take about 2 minutes each, or 6 minutes total.
