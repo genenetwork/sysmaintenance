@@ -1,4 +1,4 @@
-Sometimes we need to update to newly released genome assemblies in GeneNetwork. This file details the process used to update the database accordingly. This file perpared as part of the LiftOver from mm9 to mm10 in December 2016. Need to LiftOver rat, human, and other species too, but most text below is directly relevant to mouse.
+Sometimes we need to update to newly released genome assemblies in GeneNetwork. This file details the process used to update the database accordingly. This file was prepared as part of the LiftOver from mm9 to mm10 in December 2016. We still need to LiftOver rat, human, and other species as well, but the text below is directly relevant to mouse. For the most part, the process would be the same for other species, only with the SpeciesId in the queries changed to the Id corresponding with the desired species.
 
 ---
 
