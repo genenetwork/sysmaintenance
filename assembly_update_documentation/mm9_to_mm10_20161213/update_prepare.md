@@ -9,3 +9,18 @@ Below starting the update, we need to create a new archive using Time Machine an
 - Synchronize the server Rabbit's database and code with Lily's. The following scripts are used to do this:
    * Source code sync script - [GitHub](https://github.com/genenetwork/sysmaintenance/blob/master/gn_update_src/gnupdatesrc_from_lily.sh)
    * Database sync script - [GitHub](https://github.com/genenetwork/sysmaintenance/blob/master/gn_update_db/gnupdatedb_from_lily.sh)
+
+update tables:
+
+BXDSnpPosition
+EnsemblProbeLocation
+GeneList_rn3
+GeneList_rn33
+Geno
+IndelAll
+ProbeSet
+SnpAll
+TissueProbeSetXRef
+
+update files:
+BXD.geno
