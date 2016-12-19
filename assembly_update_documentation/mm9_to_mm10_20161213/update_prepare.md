@@ -16,8 +16,6 @@ Below starting the update, we need to create a new archive using Time Machine an
 - BXDSnpPosition
 - EnsemblProbeLocation
 - GeneList
-- GeneList_rn3
-- GeneList_rn33
 - Geno
 - IndelAll
 - ProbeSet
