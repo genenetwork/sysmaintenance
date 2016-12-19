@@ -10,17 +10,18 @@ Below starting the update, we need to create a new archive using Time Machine an
    * Source code sync script - [GitHub](https://github.com/genenetwork/sysmaintenance/blob/master/gn_update_src/gnupdatesrc_from_lily.sh)
    * Database sync script - [GitHub](https://github.com/genenetwork/sysmaintenance/blob/master/gn_update_db/gnupdatedb_from_lily.sh)
 
-update tables:
 
-BXDSnpPosition
-EnsemblProbeLocation
-GeneList_rn3
-GeneList_rn33
-Geno
-IndelAll
-ProbeSet
-SnpAll
-TissueProbeSetXRef
+###### To update tables:
 
-update files:
-BXD.geno
+- BXDSnpPosition
+- EnsemblProbeLocation
+- GeneList_rn3
+- GeneList_rn33
+- Geno
+- IndelAll
+- ProbeSet
+- SnpAll
+- TissueProbeSetXRef
+
+###### To update files:
+- BXD.geno
