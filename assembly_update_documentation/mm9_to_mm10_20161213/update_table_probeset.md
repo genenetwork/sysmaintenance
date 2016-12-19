@@ -1,3 +1,6 @@
+The following explains how to update the ProbeSet table before adding the new assembly data.
+___
+
 1. Add new columns in the database for the previous assembly versions in the ProbeSet table on the server Rabbit. These new columns should correspond with the following existing columns: 
    - **Chr**
    - **Mb** 
