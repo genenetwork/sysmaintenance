@@ -1,1 +1,2 @@
 The GeneList table is used by GeneNetwork1 (and even GN2) to generated overlays on QTL maps and to generate tables of genes in QTL intervals. The table is was originally populated with mouse data and some associated human and rat data. Maintainng a multipe-species tables is NOT practicaal, and this table should probably be explicitly limited to mouse data (and human or rat homologs).
+
