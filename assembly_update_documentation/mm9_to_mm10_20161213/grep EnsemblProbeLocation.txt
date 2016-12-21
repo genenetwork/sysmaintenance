@@ -1,0 +1,15 @@
+[root@rabbit webqtl]# grep -R "EnsemblProbeLocation" /gnshare/gn/web/webqtl/
+/gnshare/gn/web/webqtl/collection/AddToSelectionPage.py:                                    SELECT EnsemblProbeLocation.*
+/gnshare/gn/web/webqtl/collection/AddToSelectionPage.py:                                    FROM EnsemblProbeLocation, EnsemblProbe, EnsemblChip, GeneChipEnsemblXRef, ProbeFreeze, ProbeSetFreeze
+/gnshare/gn/web/webqtl/collection/AddToSelectionPage.py:                                    WHERE EnsemblProbeLocation.ProbeId=EnsemblProbe.Id and EnsemblProbe.ChipId=GeneChipEnsemblXRef.EnsemblChipId and
+/gnshare/gn/web/webqtl/collection/AddToSelectionPage.py:                                        SELECT EnsemblProbeLocation.*, ABS(EnsemblProbeLocation.Start/1000000-%s) as Mb
+/gnshare/gn/web/webqtl/collection/AddToSelectionPage.py:                                        FROM EnsemblProbeLocation, EnsemblProbe, EnsemblChip, GeneChipEnsemblXRef, ProbeFreeze
+/gnshare/gn/web/webqtl/collection/AddToSelectionPage.py:                                        WHERE EnsemblProbeLocation.ProbeId=EnsemblProbe.Id and EnsemblProbe.ChipId=GeneChipEnsemblXRef.EnsemblChipId and
+/gnshare/gn/web/webqtl/collection/AddToSelectionPage.py:                                                EnsemblProbeLocation.Chr=%s and ProbeSetFreezeId=%s and ProbeSetFreeze.ProbeFreezeId = ProbeFreeze.Id order by Mb limit 1'''
+/gnshare/gn/web/webqtl/showTrait/ShowProbeInfoPage.py:                                  SELECT EnsemblProbeLocation.*
+/gnshare/gn/web/webqtl/showTrait/ShowProbeInfoPage.py:                                  FROM EnsemblProbeLocation, EnsemblProbe, EnsemblChip, GeneChipEnsemblXRef, ProbeFreeze
+/gnshare/gn/web/webqtl/showTrait/ShowProbeInfoPage.py:                                  WHERE EnsemblProbeLocation.ProbeId=EnsemblProbe.Id and EnsemblProbe.ChipId=GeneChipEnsemblXRef.EnsemblChipId and
+/gnshare/gn/web/webqtl/showTrait/ShowProbeInfoPage.py:                                          SELECT EnsemblProbeLocation.*, ABS(EnsemblProbeLocation.Start/1000000-%s) as Mb
+/gnshare/gn/web/webqtl/showTrait/ShowProbeInfoPage.py:                                          FROM EnsemblProbeLocation, EnsemblProbe, EnsemblChip, GeneChipEnsemblXRef, ProbeFreeze
+/gnshare/gn/web/webqtl/showTrait/ShowProbeInfoPage.py:                                          WHERE EnsemblProbeLocation.ProbeId=EnsemblProbe.Id and EnsemblProbe.ChipId=GeneChipEnsemblXRef.EnsemblChipId and
+/gnshare/gn/web/webqtl/showTrait/ShowProbeInfoPage.py:                                                  EnsemblProbeLocation.Chr=%s and ProbeFreeze.Name=%s order by Mb limit 1'''
