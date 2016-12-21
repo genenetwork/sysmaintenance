@@ -14,7 +14,7 @@ ___
 
    This query should take about 2 minutes.
 
-2. The data in **Mb_start** and **Mb_end** should be duplicated in these new colums. The SQL for this is the following:
+2. The data in the column **Mb** should be duplicated into the new column **Mb_2016**. The SQL for this is the following:
    ```
    UPDATE BXDSnpPosition
    SET BXDSnpPosition.`Mb_2016` = BXDSnpPosition.`Mb`;
